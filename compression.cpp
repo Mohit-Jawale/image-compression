@@ -54,7 +54,7 @@ int run_encode_length(double *input,vector<double> &output,size_t n)
 {
     double prev = input[0];
 
-    int count = 0 ;
+    int count = 1 ;
     int index = 0;
     for(int i =1;i<n;i++)
     {
@@ -249,7 +249,7 @@ int main (int argc, char *argv[]) {
     cout<<"before total array length->"<<nrows * ncols * nchannels<<endl;
     cout<<"before memory array length->"<<(nrows * ncols * nchannels)*sizeof(dct[0])/1000000<<endl;
     cout<<"after total array length->"<<compress_array_length<<endl;
-    cout<<"after total array length->"<<(compress_array_length)*sizeof(dct[0])/1000000<<endl;
+    cout<<"after total memory length->"<<(compress_array_length)*sizeof(dct[0])/1000000<<endl;
     //Huffman encoding 
 
     
