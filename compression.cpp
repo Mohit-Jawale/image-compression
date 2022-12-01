@@ -245,14 +245,18 @@ int main (int argc, char *argv[]) {
     // Discrete Cosine Transform of image & Quantization
     DCT(npydata, dct, Q, nrows, ncols, nchannels);
     //RLE
-    int compress_array_length = run_encode_length(dct,out_encode_rle,nrows * ncols * nchannels);
-    cout<<"before->"<<nrows * ncols * nchannels;
-    cout<<"after->"<<compress_array_length;
+    int compress_array_length = run_encode_length(dct,output_encode_rle,nrows * ncols * nchannels);
+    cout<<"before total array length->"<<nrows * ncols * nchannels<<endl;
+    cout<<"before memory array length->"<<(nrows * ncols * nchannels)*sizeof(dct[0])/1000000<<endl;
+    cout<<"after total array length->"<<compress_array_length<<endl;
+    cout<<"after total array length->"<<(compress_array_length)*sizeof(dct[0])/1000000<<endl;
     //Huffman encoding 
 
     
     //Huffman Decoding
     //Inverse RLE
+    int original_data_num = run_decode_length(output_encode_rle,output_decode_rle,compress_array_length);
+    cout<<"total_element"<<original_data_num<<endl;
     // Inverse DCT & Quantization
     IDCT(dct, idct, Q, nrows, ncols, nchannels);
     
