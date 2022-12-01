@@ -26,6 +26,60 @@ void print_npy_array(double* npydata, size_t nrows, size_t ncols, size_t nchanne
     }
 }
 
+int run_decode_length(vector<double> & input,double *output,int n)
+{
+
+
+
+    int index = 0;
+    for(int i = 0; i < n; i=i+2)
+    {
+        for(int j=0;j<input[i+1];j++)
+        {
+            output[index]=input[i];
+            index++;
+
+        }
+    }
+    return index;
+
+
+
+
+
+}
+
+
+int run_encode_length(double *input,vector<double> &output,size_t n)
+{
+    double prev = input[0];
+
+    int count = 0 ;
+    int index = 0;
+    for(int i =1;i<n;i++)
+    {
+        if (prev==input[i])
+        {
+            count++;
+        }
+        else{
+            output.push_back(prev);
+            index++;
+            output.push_back(count);
+            index++;
+            prev =input[i];
+            count=1;
+        }
+
+    }
+    output.push_back(prev);
+    index++;
+    output.push_back(count);
+    return ++index;
+
+    
+}
+
 
 void IDCT(double* dct, double* idct, double* Q, size_t const nrows, size_t const ncols, size_t const nchannels) {
 
@@ -179,6 +233,8 @@ int main (int argc, char *argv[]) {
     // create arrays for intermediate results
     double* dct = new double[nrows * ncols * nchannels];
     double* idct = new double[nrows * ncols * nchannels];
+    double* output_decode_rle = new double[nrows * ncols * nchannels];
+    vector<double> output_encode_rle ;
 
     // print_npy_array(npydata, nrows, ncols, nchannels);
 
@@ -188,7 +244,10 @@ int main (int argc, char *argv[]) {
 
     // Discrete Cosine Transform of image & Quantization
     DCT(npydata, dct, Q, nrows, ncols, nchannels);
-    //RLE 
+    //RLE
+    int compress_array_length = run_encode_length(dct,out_encode_rle,nrows * ncols * nchannels);
+    cout<<"before->"<<nrows * ncols * nchannels;
+    cout<<"after->"<<compress_array_length;
     //Huffman encoding 
 
     
